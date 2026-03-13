@@ -1,11 +1,13 @@
 services:
-  - type: worker
-    name: meu-bot-nuvem
+  - type: web
+    name: meu-bot-telegram
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python bot.py"
+    startCommand: "gunicorn bot:app"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: GEMINI_API_KEY
+        sync: false
+      - key: WEBHOOK_URL
         sync: false
