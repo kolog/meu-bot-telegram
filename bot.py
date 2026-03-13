@@ -61,15 +61,24 @@ def webhook():
 def health_check():
     return 'Bot está rodando!', 200
 
-# Configura o webhook e inicia o servidor
-if __name__ == '__main__':
-    if WEBHOOK_URL:
+# Configura o webhook na inicialização do módulo (necessário para Gunicorn)
+if WEBHOOK_URL:
+    try:
         bot.remove_webhook()
-        bot.set_webhook(url=f"{WEBHOOK_URL}/{TELEGRAM_BOT_TOKEN}")
-        print(f"Webhook configurado: {WEBHOOK_URL}/{TELEGRAM_BOT_TOKEN}")
-    else:
-        print("AVISO: WEBHOOK_URL não definida. Usando polling para desenvolvimento local.")
-        bot.infinity_polling()
+        # Garante que a URL termina com barra para concatenar o token corretamente
+        base_url = WEBHOOK_URL.rstrip('/')
+        full_webhook_url = f"{base_url}/{TELEGRAM_BOT_TOKEN}"
+        bot.set_webhook(url=full_webhook_url)
+        print(f"Webhook configurado com sucesso: {full_webhook_url}")
+    except Exception as e:
+        print(f"Erro ao configurar Webhook: {str(e)}")
+else:
+    print("AVISO: WEBHOOK_URL não definida. Usando polling se executado localmente.")
 
+# Inicia o servidor se executado diretamente
+if __name__ == '__main__':
+    if not WEBHOOK_URL:
+        bot.infinity_polling()
+    
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
