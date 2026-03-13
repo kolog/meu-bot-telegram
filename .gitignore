@@ -1,0 +1,25 @@
+# Variáveis de ambiente (chaves de API - NUNCA subir para o GitHub!)
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Arquivos de distribuição
+*.zip
+*.tar.gz
+
+# Script de deploy (contém chaves hardcoded)
+deploy_render.py
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
