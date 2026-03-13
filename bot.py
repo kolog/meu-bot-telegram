@@ -27,7 +27,7 @@ bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, threaded=False) # threaded=False para 
 # Inicializa o Gemini API
 try:
     genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
     logger.info("Gemini API configurado com sucesso.")
 except Exception as e:
     logger.error(f"Erro ao configurar Gemini AI: {str(e)}")
